@@ -79,3 +79,18 @@ def plusThree = {it + 3}
           function: (identifier)
           args: (argument_list
             (identifier)))))))
+==========
+Quoted field access
+==========
+map."an identifier with a space";
+map.'with-dash-signs';
+---
+(source_file
+  (dotted_identifier
+    (identifier)
+    (quoted_identifier
+      (string_content)))
+  (dotted_identifier
+    (identifier)
+    (quoted_identifier
+      (string_content))))

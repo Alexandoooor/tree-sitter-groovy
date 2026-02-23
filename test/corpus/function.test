@@ -65,6 +65,21 @@ def foo() {
           (string
             (string_content)))))))
 ==========
+Quoted function name
+==========
+def "get greeting"() {
+  return 1
+}
+---
+(source_file
+  (function_definition
+    function: (quoted_identifier
+      (string_content))
+    parameters: (parameter_list)
+    body: (closure
+      (return
+        (number_literal)))))
+==========
 Parameters
 ==========
 def foo(int x, Boolean y = false) {

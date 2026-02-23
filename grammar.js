@@ -112,6 +112,7 @@ module.exports = grammar({
         '.',
         choice(
           $.identifier,
+          $.quoted_identifier,
           $._type_identifier,
           $.parenthesized_expression,
         ))),
@@ -446,7 +447,7 @@ module.exports = grammar({
       optional($.access_modifier),
       repeat($.modifier),
       field('type', choice($._type, 'def')),
-      field('function', choice($.identifier)),
+      field('function', choice($.identifier, $.quoted_identifier)),
       field('parameters', $.parameter_list),
     )),
 
@@ -455,13 +456,17 @@ module.exports = grammar({
       optional($.access_modifier),
       repeat($.modifier),
       field('type', choice($._type, 'def')),
-      field('function', $.identifier),
+      field('function', choice($.identifier, $.quoted_identifier)),
       field('parameters', $.parameter_list),
       field('body', $.closure), //TODO: optional return
     )),
 
     identifier: $ => IDENTIFIER_REGEX,
     _type_identifier: $ => alias(TYPE_REGEX, $.identifier),
+    quoted_identifier: $ => choice(
+      $._plain_string,
+      $._interpolate_string,
+    ),
 
     // identifier: $ => seq(
     //   choice($._letter, '$', '_'),
