@@ -1,5 +1,5 @@
 {
-  "name": "tree-sitter-groovy",
+  "name": "@murtaza64/tree-sitter-groovy",
   "version": "0.0.1",
   "description": "groovy grammar for tree-sitter",
   "main": "bindings/node",
@@ -21,6 +21,9 @@
     "queries/*",
     "src/**"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "node-addon-api": "^7.1.0",
     "node-gyp-build": "^4.8.0"
