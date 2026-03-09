@@ -1615,6 +1615,91 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "implements"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "interfaces",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "PREC_LEFT",
+                          "value": 0,
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "CHOICE",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_type_identifier"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "type_with_generics"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "_type_identifier"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "type_with_generics"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "BLANK"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "FIELD",
           "name": "body",
           "content": {
@@ -1811,62 +1896,83 @@
       ]
     },
     "groovy_doc": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "/**"
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[*\\n\\s]+"
-          }
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "IMMEDIATE_TOKEN",
-            "content": {
-              "type": "PATTERN",
-              "value": "[^\\n\\.]+[\\.]?"
-            }
-          },
-          "named": true,
-          "value": "first_line"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "groovy_doc_param"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "groovy_doc_throws"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "groovy_doc_tag"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "groovy_doc_at_text"
-              },
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/**"
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
                 "type": "PATTERN",
-                "value": "([^@*]|\\*[^/])([^*\\s@]|[^\\s\\n]@|\\*[^/])+"
+                "value": "[^*\\n]*\\*+\\/"
               }
-            ]
-          }
+            }
+          ]
         },
         {
-          "type": "STRING",
-          "value": "*/"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/**"
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[*\\s]*\\n[*\\s]*"
+              }
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[^\\n\\.]+[\\.]?"
+                }
+              },
+              "named": true,
+              "value": "first_line"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_param"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_throws"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_tag"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_at_text"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "([^@*]|\\*[^/])([^*\\s@]|[^\\s\\n]@|\\*[^/])+"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "*/"
+            }
+          ]
         }
       ]
     },
@@ -2443,12 +2549,21 @@
             "value": "("
           },
           {
-            "type": "FIELD",
-            "name": "variable",
-            "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "declaration"
+              },
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                }
+              }
+            ]
           },
           {
             "type": "STRING",
@@ -4407,6 +4522,10 @@
         {
           "type": "STRING",
           "value": "synchronized"
+        },
+        {
+          "type": "STRING",
+          "value": "abstract"
         }
       ]
     },

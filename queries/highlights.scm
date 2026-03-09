@@ -6,10 +6,12 @@
   "case"
   "catch"
   "class"
+  "interface"
   "def"
   "default"
   "else"
   "extends"
+  "implements"
   "finally"
   "for"
   "if"
@@ -34,7 +36,7 @@
 (null) @constant
 "this" @variable.builtin
 
-[ 
+[
   "int"
   "char"
   "short"
@@ -45,11 +47,12 @@
   "void"
 ] @type.builtin
 
-[ 
+[
   "final"
   "private"
   "protected"
   "public"
+  "abstract"
   "static"
   "synchronized"
 ] @type.qualifier
@@ -79,7 +82,7 @@
 ((identifier) @constant
   (#match? @constant "^[A-Z][A-Z_]+"))
 
-[ 
+[
   "%" "*" "/" "+" "-" "<<" ">>" ">>>" ".." "..<" "<..<" "<.." "<"
   "<=" ">" ">=" "==" "!=" "<=>" "===" "!==" "=~" "==~" "&" "^" "|"
   "&&" "||" "?:" "+" "*" ".&" ".@" "?." "*." "*" "*:" "++" "--" "!"
@@ -99,6 +102,8 @@
 (function_declaration type: (identifier) @type)
 (class_definition name: (identifier) @type)
 (class_definition superclass: (identifier) @type)
+(class_definition interfaces: (identifier) @type)
+(class_definition interfaces: (type_with_generics (identifier) @type))
 (generic_param superclass: (identifier) @type)
 
 (type_with_generics (identifier) @type)
@@ -111,24 +116,24 @@
 (assignment ("=") @operator)
 
 
-(function_call 
+(function_call
   function: (identifier) @function)
 (function_call
   function: (dotted_identifier
 	  (identifier) @function . ))
 (function_call (argument_list
 		 (map_item key: (identifier) @variable.parameter)))
-(juxt_function_call 
+(juxt_function_call
   function: (identifier) @function)
 (juxt_function_call
   function: (dotted_identifier
 	  (identifier) @function . ))
-(juxt_function_call (argument_list 
+(juxt_function_call (argument_list
 		      (map_item key: (identifier) @variable.parameter)))
 
-(function_definition 
+(function_definition
   function: (identifier) @function)
-(function_declaration 
+(function_declaration
   function: (identifier) @function)
 
 (annotation) @function.macro
@@ -138,7 +143,7 @@
 "pipeline" @keyword
 
 (groovy_doc) @comment.documentation
-(groovy_doc 
+(groovy_doc
   [
     (groovy_doc_param)
     (groovy_doc_throws)

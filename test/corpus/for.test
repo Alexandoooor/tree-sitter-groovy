@@ -81,7 +81,7 @@ for (x in m.values()) {
 ---
 (source_file
   (for_in_loop
-    variable: (identifier)
+    name: (identifier)
     collection: (function_call
       function: (dotted_identifier
         (identifier)
@@ -102,10 +102,33 @@ for (x in 1..5) {
 ---
 (source_file
   (for_in_loop
-    variable: (identifier)
+    name: (identifier)
     collection: (binary_op
       (number_literal)
       (number_literal))
+    body: (closure
+      (function_call
+        function: (identifier)
+        args: (argument_list
+          (string
+            (string_content)))))))
+==========
+For in type expr
+==========
+for (String x in m.values()) {
+  print("hello")
+}
+---
+(source_file
+  (for_in_loop
+    (declaration
+        type: (identifier)
+        name: (identifier))
+    collection: (function_call
+      function: (dotted_identifier
+        (identifier)
+        (identifier))
+      args: (argument_list))
     body: (closure
       (function_call
         function: (identifier)
