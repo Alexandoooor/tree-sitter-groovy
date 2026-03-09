@@ -7,6 +7,7 @@
   "catch"
   "class"
   "interface"
+  "enum"
   "def"
   "default"
   "else"

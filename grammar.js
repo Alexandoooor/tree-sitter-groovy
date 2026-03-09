@@ -212,7 +212,7 @@ module.exports = grammar({
       repeat($.annotation),
       optional($.access_modifier),
       repeat($.modifier),
-      choice('@interface', 'interface', 'class'),
+      choice('@interface', 'interface', 'class', 'enum'),
       field('name', choice($.identifier, $._type_identifier)),
       optional(field('generics', $.generic_parameters)),
       optional(seq(
