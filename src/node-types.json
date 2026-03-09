@@ -739,6 +739,28 @@
           }
         ]
       },
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "@interface",
+            "named": false
+          },
+          {
+            "type": "class",
+            "named": false
+          },
+          {
+            "type": "enum",
+            "named": false
+          },
+          {
+            "type": "interface",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -873,6 +895,10 @@
         },
         {
           "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "enum_constants",
           "named": true
         },
         {
@@ -1350,6 +1376,40 @@
         },
         {
           "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_constants",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "closure",
           "named": true
         }
       ]

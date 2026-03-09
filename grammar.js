@@ -37,10 +37,12 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  conflicts: $ => [ //TODO: dynamic precedence, heuristics? eg capital letter
+  conflicts: $ => [
     [$._callable_expression, $.juxt_function_call],
     [$._callable_expression, $._juxt_argument_list],
     [$._juxtable_expression, $._juxt_argument_list],
+    [$.enum_constants, $._callable_expression, $._type],
+    [$.enum_constants, $._type],
   ],
 
   rules: {
@@ -212,7 +214,7 @@ module.exports = grammar({
       repeat($.annotation),
       optional($.access_modifier),
       repeat($.modifier),
-      choice('@interface', 'interface', 'class', 'enum'),
+      field('kind', choice('@interface', 'interface', 'class', 'enum')),
       field('name', choice($.identifier, $._type_identifier)),
       optional(field('generics', $.generic_parameters)),
       optional(seq(
@@ -225,6 +227,16 @@ module.exports = grammar({
       )),
       field('body', $.closure),
     ),
+
+    enum_constants: $ => prec(2, seq(
+      list_of(seq(
+        repeat($.annotation),
+        field('name', choice($.identifier, $._type_identifier)),
+        optional($.argument_list),
+        optional($.closure),
+      )),
+      optional(';'),
+    )),
 
     generic_parameters: $ => seq(
       '<',
@@ -243,10 +255,10 @@ module.exports = grammar({
     closure: $ => seq(
       '{',
       optional(choice('->', seq(alias($._param_list, $.parameter_list), '->'))),
-      // repeat(choice($._statement, $._expression)),
+      optional($.enum_constants),
       repeat($._statement),
       optional($._expression),
-      '}'
+      '}',
     ),
 
     comment: $ => choice(
