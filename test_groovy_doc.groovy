@@ -1,5 +1,5 @@
-/** Some description.
- *
+/**
+ * Some description.
  * @param foo the foo
  * @return bar
  */
