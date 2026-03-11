@@ -10,6 +10,7 @@
   "enum"
   "def"
   "default"
+  "do"
   "else"
   "extends"
   "implements"
@@ -19,6 +20,7 @@
   "import"
   "in"
   "instanceof"
+  "new"
   "package"
   "pipeline"
   "return"
@@ -106,6 +108,11 @@
 (class_definition interfaces: (identifier) @type)
 (class_definition interfaces: (type_with_generics (identifier) @type))
 (generic_param superclass: (identifier) @type)
+
+(enum_definition name: (identifier) @type)
+(enum_definition interfaces: (identifier) @type)
+(enum_definition interfaces: (type_with_generics (identifier) @type))
+(enum_constant name: (identifier) @constant)
 
 (type_with_generics (identifier) @type)
 (type_with_generics (generics (identifier) @type))

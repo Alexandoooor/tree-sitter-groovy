@@ -595,6 +595,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "for_in_loop",
           "named": true
         },
@@ -752,11 +756,11 @@
             "named": false
           },
           {
-            "type": "enum",
+            "type": "interface",
             "named": false
           },
           {
-            "type": "interface",
+            "type": "trait",
             "named": false
           }
         ]
@@ -898,7 +902,7 @@
           "named": true
         },
         {
-          "type": "enum_constants",
+          "type": "enum_definition",
           "named": true
         },
         {
@@ -1209,6 +1213,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "for_in_loop",
             "named": true
           },
@@ -1382,11 +1390,178 @@
     }
   },
   {
-    "type": "enum_constants",
+    "type": "enum_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_op",
+          "named": true
+        },
+        {
+          "type": "assertion",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_op",
+          "named": true
+        },
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "closure",
+          "named": true
+        },
+        {
+          "type": "continue",
+          "named": true
+        },
+        {
+          "type": "declaration",
+          "named": true
+        },
+        {
+          "type": "do_while_loop",
+          "named": true
+        },
+        {
+          "type": "dotted_identifier",
+          "named": true
+        },
+        {
+          "type": "enum_constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
+          "type": "for_in_loop",
+          "named": true
+        },
+        {
+          "type": "for_loop",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "function_declaration",
+          "named": true
+        },
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "groovy_import",
+          "named": true
+        },
+        {
+          "type": "groovy_package",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "increment_op",
+          "named": true
+        },
+        {
+          "type": "index",
+          "named": true
+        },
+        {
+          "type": "juxt_function_call",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "ternary_op",
+          "named": true
+        },
+        {
+          "type": "try_statement",
+          "named": true
+        },
+        {
+          "type": "unary_op",
+          "named": true
+        },
+        {
+          "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_constant",
     "named": true,
     "fields": {
       "name": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1410,6 +1585,68 @@
         },
         {
           "type": "closure",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "enum_body",
+            "named": true
+          }
+        ]
+      },
+      "interfaces": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "type_with_generics",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifier",
           "named": true
         }
       ]
@@ -1473,6 +1710,10 @@
           },
           {
             "type": "dotted_identifier",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -1742,6 +1983,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "for_in_loop",
             "named": true
           },
@@ -1999,6 +2244,10 @@
           },
           {
             "type": "dotted_identifier",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -2593,6 +2842,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "for_in_loop",
             "named": true
           },
@@ -2762,6 +3015,10 @@
           },
           {
             "type": "dotted_identifier",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -3754,6 +4011,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "for_in_loop",
           "named": true
         },
@@ -4233,6 +4494,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "for_in_loop",
             "named": true
           },
@@ -4610,6 +4875,10 @@
           },
           {
             "type": "dotted_identifier",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -5240,6 +5509,10 @@
   },
   {
     "type": "this",
+    "named": false
+  },
+  {
+    "type": "trait",
     "named": false
   },
   {
