@@ -1,4 +1,6 @@
 const PREC = {
+  COMMENT: 0,
+  DOC_COMMENT: 1,
   DEFAULT: 1,
   PRIORITY: 2,
   ELVIS: 3,
@@ -43,7 +45,7 @@ const KEYWORDS = [
 module.exports = grammar({
   name: 'groovy',
 
-  extras: $ => [/\s/, $.comment, $.groovy_doc],
+  extras: $ => [/\s/, $.comment, $.block_comment, $.groovy_doc],
 
   word: $ => $.identifier,
 
@@ -53,6 +55,7 @@ module.exports = grammar({
     [$._juxtable_expression, $._juxt_argument_list],
     [$.enum_constant, $._juxtable_expression],
     [$.enum_constant, $._callable_expression],
+    [$.parameter_list, $.argument_list],
   ],
 
   rules: {
@@ -79,6 +82,7 @@ module.exports = grammar({
         $.for_loop,
         $.function_call,
         $.function_declaration,
+        $.constructor_definition,
         $.function_definition,
         $.if_statement,
         $.juxt_function_call,
@@ -176,36 +180,96 @@ module.exports = grammar({
     // Comments
     // -------------------------------------------------------------------------
 
-    comment: $ => choice(
-      /\/\/[^\n]*/,
-      seq('/*', /[^*]*\*+([^/*][^*]*\*+)*\//),
-    ),
+    comment: _ => token(/\/\/[^\n]*/),
+
+    block_comment: _ => token(prec(PREC.COMMENT,
+      seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/',),
+    )),
 
     groovy_doc: $ => choice(
-      // single-line: /** @deprecated */
-      seq('/**', token.immediate(/[^*\n]*\*+\//)),
-      // multi-line: must have a newline after /**
+      // single-line: /** ... */
+      token(prec(PREC.DOC_COMMENT,
+        seq('/**', /[^*\n]*/, '*/')
+      )),
+      // multi-line
       seq(
-        '/**',
+        token(prec(PREC.DOC_COMMENT, '/**')),
         token.immediate(/[*\s]*\n[*\s]*/),
-        alias(token.immediate(/[^\n\.]+[\.]?/), $.first_line),
+        alias(token.immediate(/[^\n]+/), $.groovy_doc_first_line),
         repeat(
           choice(
             $.groovy_doc_param,
             $.groovy_doc_throws,
+            $.groovy_doc_return,
+            $.groovy_doc_see,
+            $.groovy_doc_since,
+            $.groovy_doc_deprecated,
+            $.groovy_doc_author,
+            $.groovy_doc_version,
+            $.groovy_doc_inline_tag,
             $.groovy_doc_tag,
             $.groovy_doc_at_text,
-            /([^@*]|\*[^/])([^*\s@]|[^\s\n]@|\*[^/])+/,
+            /([^@{*]|\*[^/]|\{[^@])+/,
           ),
         ),
-        '*/'
+        '*/',
       ),
     ),
 
-    groovy_doc_param: $ => seq('@param', $.identifier),
-    groovy_doc_throws: $ => seq('@throws', $.identifier),
-    groovy_doc_tag: $ => /@[a-z]+/,
-    groovy_doc_at_text: $ => /@[^@\s*]*/,
+    groovy_doc_param: $ => seq(
+      '@param',
+      $.identifier,
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_throws: $ => seq(
+      choice('@throws', '@exception'),
+      $.identifier,
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_return: $ => seq(
+      '@return',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_see: $ => seq(
+      '@see',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_since: $ => seq(
+      '@since',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_deprecated: $ => seq(
+      '@deprecated',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_author: $ => seq(
+      '@author',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_version: $ => seq(
+      '@version',
+      optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
+    ),
+
+    groovy_doc_inline_tag: $ => seq(
+      '{@',
+      alias(/[a-z]+/, $.groovy_doc_tag_name),
+      optional(alias(/[^}]+/, $.groovy_doc_tag_value)),
+      '}',
+    ),
+
+    // fallback for unknown @tags with no special handling
+    groovy_doc_tag: _ => token(prec(PREC.COMMENT, /@[a-z]+/)),
+
+    // fallback for malformed @ content
+    groovy_doc_at_text: _ => token(/@[^@\s*]*/),
 
     // -------------------------------------------------------------------------
     // Imports / Package
@@ -386,7 +450,15 @@ module.exports = grammar({
       ')'
     )),
 
+    // parameter: $ => prec(-1, seq(
+    //   optional(field('type', choice($._type, 'def'))),
+    //   field('name', $.identifier),
+    //   optional(seq('=', field('value', $._expression))),
+    // )),
+
     parameter: $ => prec(-1, seq(
+      repeat($.annotation),
+      optional($.modifier),
       optional(field('type', choice($._type, 'def'))),
       field('name', $.identifier),
       optional(seq('=', field('value', $._expression))),
@@ -407,6 +479,15 @@ module.exports = grammar({
       repeat($.modifier),
       field('type', choice($._type, 'def')),
       field('function', choice($.identifier, $.quoted_identifier)),
+      field('parameters', $.parameter_list),
+      field('body', $.closure),
+    )),
+
+    constructor_definition: $ => prec(4, seq(
+      repeat($.annotation),
+      optional($.access_modifier),
+      repeat($.modifier),
+      field('name', $._type_identifier),
       field('parameters', $.parameter_list),
       field('body', $.closure),
     )),

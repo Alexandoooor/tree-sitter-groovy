@@ -5,6 +5,8 @@
       "camelcase": "Groovy",
       "scope": "source.groovy",
       "path": ".",
+      "highlights": "queries/groovy/highlights.scm",
+      "locals": "queries/groovy/locals.scm",
       "file-types": [
         "groovy"
       ]

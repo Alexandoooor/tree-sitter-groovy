@@ -21,7 +21,15 @@ static class C {
   public static int x = 1
 }
 
-class SomeOtherClass {}
+class SomeOtherClass {
+    private final Object pipe
+    private final Map someMap
+
+    private SomeOtherClass(Object pipeline, Map someMap) {
+        pipe = pipeline
+        someMap = someMap
+    }
+}
 interface SomeInterface {}
 
 /** hej */
@@ -54,5 +62,3 @@ pipeline {
     }
   }
 }
-
-class SomeOtherClass {}

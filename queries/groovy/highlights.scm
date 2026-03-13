@@ -61,6 +61,7 @@
 ] @type.qualifier
 
 (comment) @comment
+(block_comment) @comment
 (shebang) @comment
 
 (string) @string
@@ -151,11 +152,36 @@
 "pipeline" @keyword
 
 (groovy_doc) @comment.documentation
+
+(groovy_doc (groovy_doc_first_line) @comment.documentation)
+
 (groovy_doc
   [
     (groovy_doc_param)
     (groovy_doc_throws)
+    (groovy_doc_return)
+    (groovy_doc_see)
+    (groovy_doc_since)
+    (groovy_doc_deprecated)
+    (groovy_doc_author)
+    (groovy_doc_version)
     (groovy_doc_tag)
+    (groovy_doc_at_text)
   ] @string.special)
-(groovy_doc (groovy_doc_param (identifier) @variable.parameter))
-(groovy_doc (groovy_doc_throws (identifier) @type))
+
+(groovy_doc_param (identifier) @variable.parameter)
+(groovy_doc_throws (identifier) @type)
+
+(groovy_doc_inline_tag
+  (groovy_doc_tag_name) @string.special
+  (groovy_doc_tag_value) @string)
+
+
+(constructor_definition
+  name: (identifier) @type)
+
+(constructor_definition
+  (parameter_list
+    (parameter
+      type: (_) @type
+      name: (identifier) @variable.parameter)))

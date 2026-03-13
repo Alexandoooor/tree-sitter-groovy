@@ -579,6 +579,10 @@
           "named": true
         },
         {
+          "type": "constructor_definition",
+          "named": true
+        },
+        {
           "type": "continue",
           "named": true
         },
@@ -886,6 +890,10 @@
           "named": true
         },
         {
+          "type": "constructor_definition",
+          "named": true
+        },
+        {
           "type": "continue",
           "named": true
         },
@@ -1013,10 +1021,58 @@
     }
   },
   {
-    "type": "comment",
+    "type": "constructor_definition",
     "named": true,
-    "extra": true,
-    "fields": {}
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "closure",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameter_list",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access_modifier",
+          "named": true
+        },
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "declaration",
@@ -1194,6 +1250,10 @@
           },
           {
             "type": "closure",
+            "named": true
+          },
+          {
+            "type": "constructor_definition",
             "named": true
           },
           {
@@ -1427,6 +1487,10 @@
         },
         {
           "type": "closure",
+          "named": true
+        },
+        {
+          "type": "constructor_definition",
           "named": true
         },
         {
@@ -1694,6 +1758,10 @@
           },
           {
             "type": "closure",
+            "named": true
+          },
+          {
+            "type": "constructor_definition",
             "named": true
           },
           {
@@ -1967,6 +2035,10 @@
             "named": true
           },
           {
+            "type": "constructor_definition",
+            "named": true
+          },
+          {
             "type": "continue",
             "named": true
           },
@@ -2228,6 +2300,10 @@
           },
           {
             "type": "closure",
+            "named": true
+          },
+          {
+            "type": "constructor_definition",
             "named": true
           },
           {
@@ -2674,15 +2750,39 @@
       "required": false,
       "types": [
         {
-          "type": "first_line",
-          "named": true
-        },
-        {
           "type": "groovy_doc_at_text",
           "named": true
         },
         {
+          "type": "groovy_doc_author",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_deprecated",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_first_line",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_inline_tag",
+          "named": true
+        },
+        {
           "type": "groovy_doc_param",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_return",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_see",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_since",
           "named": true
         },
         {
@@ -2691,6 +2791,59 @@
         },
         {
           "type": "groovy_doc_throws",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_version",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_author",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_deprecated",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_inline_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "groovy_doc_tag_name",
+          "named": true
+        },
+        {
+          "type": "groovy_doc_tag_value",
           "named": true
         }
       ]
@@ -2701,11 +2854,60 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "groovy_doc_description",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_return",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_see",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_since",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
           "named": true
         }
       ]
@@ -2716,11 +2918,30 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "groovy_doc_description",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "groovy_doc_version",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "groovy_doc_description",
           "named": true
         }
       ]
@@ -2823,6 +3044,10 @@
           },
           {
             "type": "closure",
+            "named": true
+          },
+          {
+            "type": "constructor_definition",
             "named": true
           },
           {
@@ -2999,6 +3224,10 @@
           },
           {
             "type": "closure",
+            "named": true
+          },
+          {
+            "type": "constructor_definition",
             "named": true
           },
           {
@@ -3716,6 +3945,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3992,6 +4235,10 @@
         },
         {
           "type": "closure",
+          "named": true
+        },
+        {
+          "type": "constructor_definition",
           "named": true
         },
         {
@@ -4478,6 +4725,10 @@
             "named": true
           },
           {
+            "type": "constructor_definition",
+            "named": true
+          },
+          {
             "type": "continue",
             "named": true
           },
@@ -4862,6 +5113,10 @@
             "named": true
           },
           {
+            "type": "constructor_definition",
+            "named": true
+          },
+          {
             "type": "continue",
             "named": true
           },
@@ -5164,10 +5419,6 @@
     "named": false
   },
   {
-    "type": "/*",
-    "named": false
-  },
-  {
     "type": "/**",
     "named": false
   },
@@ -5276,6 +5527,18 @@
     "named": false
   },
   {
+    "type": "@author",
+    "named": false
+  },
+  {
+    "type": "@deprecated",
+    "named": false
+  },
+  {
+    "type": "@exception",
+    "named": false
+  },
+  {
     "type": "@interface",
     "named": false
   },
@@ -5284,7 +5547,23 @@
     "named": false
   },
   {
+    "type": "@return",
+    "named": false
+  },
+  {
+    "type": "@see",
+    "named": false
+  },
+  {
+    "type": "@since",
+    "named": false
+  },
+  {
     "type": "@throws",
+    "named": false
+  },
+  {
+    "type": "@version",
     "named": false
   },
   {
@@ -5324,6 +5603,11 @@
     "named": false
   },
   {
+    "type": "block_comment",
+    "named": true,
+    "extra": true
+  },
+  {
     "type": "boolean",
     "named": false
   },
@@ -5346,6 +5630,11 @@
   {
     "type": "class",
     "named": false
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
   },
   {
     "type": "continue",
@@ -5396,10 +5685,6 @@
     "named": false
   },
   {
-    "type": "first_line",
-    "named": true
-  },
-  {
     "type": "float",
     "named": false
   },
@@ -5412,7 +5697,23 @@
     "named": true
   },
   {
+    "type": "groovy_doc_description",
+    "named": true
+  },
+  {
+    "type": "groovy_doc_first_line",
+    "named": true
+  },
+  {
     "type": "groovy_doc_tag",
+    "named": true
+  },
+  {
+    "type": "groovy_doc_tag_name",
+    "named": true
+  },
+  {
+    "type": "groovy_doc_tag_value",
     "named": true
   },
   {
@@ -5537,6 +5838,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "{@",
     "named": false
   },
   {

@@ -123,6 +123,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "constructor_definition"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "function_definition"
               },
               {
@@ -874,13 +878,18 @@
       ]
     },
     "comment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "\\/\\/[^\\n]*"
-        },
-        {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\/\\/[^\\n]*"
+      }
+    },
+    "block_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 0,
+        "content": {
           "type": "SEQ",
           "members": [
             {
@@ -889,37 +898,56 @@
             },
             {
               "type": "PATTERN",
-              "value": "[^*]*\\*+([^/*][^*]*\\*+)*\\/"
+              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
             }
           ]
         }
-      ]
+      }
     },
     "groovy_doc": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "/**"
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^*\\n]*\\*+\\/"
-              }
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "/**"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^*\\n]*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "*/"
+                }
+              ]
             }
-          ]
+          }
         },
         {
           "type": "SEQ",
           "members": [
             {
-              "type": "STRING",
-              "value": "/**"
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "STRING",
+                  "value": "/**"
+                }
+              }
             },
             {
               "type": "IMMEDIATE_TOKEN",
@@ -934,11 +962,11 @@
                 "type": "IMMEDIATE_TOKEN",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\n\\.]+[\\.]?"
+                  "value": "[^\\n]+"
                 }
               },
               "named": true,
-              "value": "first_line"
+              "value": "groovy_doc_first_line"
             },
             {
               "type": "REPEAT",
@@ -955,6 +983,34 @@
                   },
                   {
                     "type": "SYMBOL",
+                    "name": "groovy_doc_return"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_see"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_since"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_deprecated"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_author"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_version"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "groovy_doc_inline_tag"
+                  },
+                  {
+                    "type": "SYMBOL",
                     "name": "groovy_doc_tag"
                   },
                   {
@@ -963,7 +1019,7 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "([^@*]|\\*[^/])([^*\\s@]|[^\\s\\n]@|\\*[^/])+"
+                    "value": "([^@{*]|\\*[^/]|\\{[^@])+"
                   }
                 ]
               }
@@ -986,6 +1042,23 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -993,22 +1066,253 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "@throws"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "@throws"
+            },
+            {
+              "type": "STRING",
+              "value": "@exception"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_return": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@return"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_see": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@see"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_since": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@since"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_deprecated": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@deprecated"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_author": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@author"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_version": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@version"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^\\n@{}*][^\\n@{}]*"
+              },
+              "named": true,
+              "value": "groovy_doc_description"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "groovy_doc_inline_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{@"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[a-z]+"
+          },
+          "named": true,
+          "value": "groovy_doc_tag_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^}]+"
+              },
+              "named": true,
+              "value": "groovy_doc_tag_value"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
     "groovy_doc_tag": {
-      "type": "PATTERN",
-      "value": "@[a-z]+"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 0,
+        "content": {
+          "type": "PATTERN",
+          "value": "@[a-z]+"
+        }
+      }
     },
     "groovy_doc_at_text": {
-      "type": "PATTERN",
-      "value": "@[^@\\s*]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "@[^@\\s*]*"
+      }
     },
     "_import_name": {
       "type": "CHOICE",
@@ -2279,6 +2583,25 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "annotation"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "modifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
@@ -2480,6 +2803,65 @@
                   "name": "quoted_identifier"
                 }
               ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "parameters",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parameter_list"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "closure"
+            }
+          }
+        ]
+      }
+    },
+    "constructor_definition": {
+      "type": "PREC",
+      "value": 4,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "annotation"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "access_modifier"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "modifier"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_type_identifier"
             }
           },
           {
@@ -5038,6 +5420,10 @@
     },
     {
       "type": "SYMBOL",
+      "name": "block_comment"
+    },
+    {
+      "type": "SYMBOL",
       "name": "groovy_doc"
     }
   ],
@@ -5061,6 +5447,10 @@
     [
       "enum_constant",
       "_callable_expression"
+    ],
+    [
+      "parameter_list",
+      "argument_list"
     ]
   ],
   "precedences": [],
