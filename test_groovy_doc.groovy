@@ -20,6 +20,10 @@ interface SomeThirdInterface {
 
 /**
  * some example i.e
+ * @throws hej
+ * @throws hEj
+ * @throws Hej
+ * @throws HEj
  */
 interface SomeFourthInterface {
     def someMethod()

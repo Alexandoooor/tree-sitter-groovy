@@ -224,7 +224,7 @@ module.exports = grammar({
 
     groovy_doc_throws: $ => seq(
       choice('@throws', '@exception'),
-      $.identifier,
+      alias(/[$_a-zA-Z][$_0-9a-zA-Z]*/, $.identifier),
       optional(alias(/[^\n@{}*][^\n@{}]*/, $.groovy_doc_description)),
     ),
 

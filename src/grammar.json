@@ -1079,8 +1079,13 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "identifier"
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[$_a-zA-Z][$_0-9a-zA-Z]*"
+          },
+          "named": true,
+          "value": "identifier"
         },
         {
           "type": "CHOICE",

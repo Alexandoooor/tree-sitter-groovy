@@ -7,8 +7,9 @@ class SomeOtherClass {
         someMap = someMap
     }
 
-    public void someMethod(final String hej) {
-
+    @groovy.transform.CompileStatic
+    public int someMethod(final String hej) {
+        return hej
     }
 
 }
