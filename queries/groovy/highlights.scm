@@ -185,3 +185,10 @@
     (parameter
       type: (_) @type
       name: (identifier) @variable.parameter)))
+
+; throws clause
+(throws_clause
+  "throws" @keyword)
+
+(throws_clause
+  (identifier) @type)
