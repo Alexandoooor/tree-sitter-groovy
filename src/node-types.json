@@ -2530,6 +2530,16 @@
           }
         ]
       },
+      "throws": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "throws_clause",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": true,
@@ -2610,6 +2620,16 @@
         "types": [
           {
             "type": "parameter_list",
+            "named": true
+          }
+        ]
+      },
+      "throws": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "throws_clause",
             "named": true
           }
         ]
@@ -4681,6 +4701,25 @@
     }
   },
   {
+    "type": "throws_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_with_generics",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "try_statement",
     "named": true,
     "fields": {
@@ -5810,6 +5849,10 @@
   },
   {
     "type": "this",
+    "named": false
+  },
+  {
+    "type": "throws",
     "named": false
   },
   {

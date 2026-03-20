@@ -56,6 +56,7 @@ module.exports = grammar({
     [$.enum_constant, $._juxtable_expression],
     [$.enum_constant, $._callable_expression],
     [$.parameter_list, $.argument_list],
+    [$.throws_clause],
   ],
 
   rules: {
@@ -464,14 +465,10 @@ module.exports = grammar({
       optional(seq('=', field('value', $._expression))),
     )),
 
-    function_declaration: $ => prec(2, seq(
-      repeat($.annotation),
-      optional($.access_modifier),
-      repeat($.modifier),
-      field('type', choice($._type, 'def')),
-      field('function', choice($.identifier, $.quoted_identifier)),
-      field('parameters', $.parameter_list),
-    )),
+    throws_clause: $ => seq(
+      'throws',
+      list_of(choice($._type_identifier, $.type_with_generics)),
+    ),
 
     function_definition: $ => prec(3, seq(
       repeat($.annotation),
@@ -480,7 +477,18 @@ module.exports = grammar({
       field('type', choice($._type, 'def')),
       field('function', choice($.identifier, $.quoted_identifier)),
       field('parameters', $.parameter_list),
+      optional(field('throws', $.throws_clause)),
       field('body', $.closure),
+    )),
+
+    function_declaration: $ => prec(2, seq(
+      repeat($.annotation),
+      optional($.access_modifier),
+      repeat($.modifier),
+      field('type', choice($._type, 'def')),
+      field('function', choice($.identifier, $.quoted_identifier)),
+      field('parameters', $.parameter_list),
+      optional(field('throws', $.throws_clause)),
     )),
 
     constructor_definition: $ => prec(4, seq(
